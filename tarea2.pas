@@ -24,3 +24,21 @@ function estanChocando(p1, p2: TPelota): boolean;
 end;
 
 (***********************)
+function esFrontera(indicePelota: TIndicePelota; zonaPelotas: TZonaPelotas): boolean;
+  var eval: boolean;
+  begin
+  eval := zonaPelotas[indicePelota.i,indicePelota.j].ocupada;
+  if eval and
+          (indicePelota.i > 1) and
+          (indicePelota.j > 1) and
+          (indicePelota.i < CANT_COLUMNAS) and
+          (indicePelota.j < CANT_FILAS) then
+      if zonaPelotas[indicePelota.i-1,indicePelota.j].ocupada and
+          zonaPelotas[indicePelota.i+1,indicePelota.j].ocupada and
+            zonaPelotas[indicePelota.i,indicePelota.j-1].ocupada and
+              zonaPelotas[indicePelota.i,indicePelota.j+1].ocupada then
+          eval := False;
+  esFrontera := eval
+  end;
+
+  (***********************)
