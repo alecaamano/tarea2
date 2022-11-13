@@ -1,5 +1,6 @@
 (* Tarea 2 - Alejandro Caamaño 4.949.596-5 *)
 
+(***********************)
 procedure darUnPaso(var balin: TBalin);
   with balin do
   begin
@@ -14,11 +15,12 @@ procedure darUnPaso(var balin: TBalin);
   end;
 end;
 
+(***********************)
+function estanChocando(p1, p2: TPelota): boolean;
+  var dist: real;
+  begin
+    dist := sqrt( sqr(p1.posicion.x - p2.posicion.x) + sqr(p1.posicion.y - p2.posicion.y) );
+    estanChocando := dist < (2*RADIO)
+end;
 
-
-function estanChocando(x1,y1,x2,y2: integer): boolean;
-var dist: real;
-Begin
-  dist := sqrt( sqr(x1-x2) + sqr(y1-y2) );
-  estanChocando := dist < (2*RADIO)
-End;
+(***********************)
