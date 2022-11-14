@@ -42,3 +42,15 @@ function esFrontera(indicePelota: TIndicePelota; zonaPelotas: TZonaPelotas): boo
   end;
 
   (***********************)
+  procedure obtenerFrontera(zonaPelotas: TZonaPelotas; var frontera: TSecPelotas);
+  begin
+  frontera.tope := 0;
+    for k := 1 to CANT_FILAS do
+      for l := 1 to CANT_COLUMNAS do
+        if esFrontera(zonaPelotas.pelota.posicion, zonaPelotas) then
+          tope := tope + 1
+          frontera.sec[tope].i = k;
+          frontera.sec[tope].j = l;
+      end;
+    end;
+  end;
