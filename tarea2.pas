@@ -42,15 +42,36 @@ function esFrontera(indicePelota: TIndicePelota; zonaPelotas: TZonaPelotas): boo
   end;
 
   (***********************)
-  procedure obtenerFrontera(zonaPelotas: TZonaPelotas; var frontera: TSecPelotas);
+procedure obtenerFrontera(zonaPelotas: TZonaPelotas; var frontera: TSecPelotas);
+  var k,l: integer;
   begin
   frontera.tope := 0;
     for k := 1 to CANT_FILAS do
       for l := 1 to CANT_COLUMNAS do
         if esFrontera(zonaPelotas.pelota.posicion, zonaPelotas) then
-          tope := tope + 1
+          begin
+          tope := tope + 1;
           frontera.sec[tope].i = k;
           frontera.sec[tope].j = l;
-      end;
-    end;
+          end;
   end;
+
+procedure disparar(b: TBalin;
+                    frontera: TSecPelotas;
+                    zona: TZonaPelotas;
+                    var indicePelota: TIndicePelota;
+                    var chocaFrontera: boolean);
+    var m: integer;
+    begin
+    chocaFrontera := False;
+    while (b.pelota.posicion.y > 0) and not chocaFrontera do
+    begin
+      darUnPaso(b);
+      k := 1;
+      while k <= frontera.tope and not chocaFrontera do
+        indicePelota.i := frontera.sec[k].i;
+        indicePelota.j := frontera.sec[k].j;
+        chocaFrontera := estanChocando(b, frontera.sec[k]) and (b.pelota.color = zonaPelotas[indicePelota.i, indicePelota.j]);
+        k := k+1;
+    end;
+    end;
