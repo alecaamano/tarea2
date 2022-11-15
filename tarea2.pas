@@ -62,7 +62,7 @@ procedure disparar(b: TBalin;
                     zona: TZonaPelotas;
                     var indicePelota: TIndicePelota;
                     var chocaFrontera: boolean);
-    var m: integer;
+    var m,k: integer;
     begin
     chocaFrontera := False;
     while (b.pelota.posicion.y > 0) and not chocaFrontera do
@@ -79,6 +79,7 @@ procedure disparar(b: TBalin;
 
 (***********************)
 procedure eliminarPelotas(var zonaPelotas: TZonaPelotas; aEliminar: TSecPelotas);
+  var k: integer;
   begin
   for k := 1 to aEliminar.tope do
     zonaPelotas[aEliminar.sec.i, aEliminar.sec.j].ocupada := False
