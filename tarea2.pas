@@ -41,7 +41,7 @@ function esFrontera(indicePelota: TIndicePelota; zonaPelotas: TZonaPelotas): boo
   esFrontera := eval
   end;
 
-  (***********************)
+(***********************)
 procedure obtenerFrontera(zonaPelotas: TZonaPelotas; var frontera: TSecPelotas);
   var k,l: integer;
   begin
@@ -56,6 +56,7 @@ procedure obtenerFrontera(zonaPelotas: TZonaPelotas; var frontera: TSecPelotas);
           end;
   end;
 
+(***********************)
 procedure disparar(b: TBalin;
                     frontera: TSecPelotas;
                     zona: TZonaPelotas;
@@ -75,3 +76,12 @@ procedure disparar(b: TBalin;
         k := k+1;
     end;
     end;
+
+(***********************)
+procedure eliminarPelotas(var zonaPelotas: TZonaPelotas; aEliminar: TSecPelotas);
+  begin
+  for k := 1 to aEliminar.tope do
+    zonaPelotas[aEliminar.sec.i, aEliminar.sec.j].ocupada := False
+  end;
+
+(***********************)
