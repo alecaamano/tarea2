@@ -2,16 +2,17 @@
 
 (***********************)
 procedure darUnPaso(var balin: TBalin);
+begin
   with balin do
   begin
-  posicion.x = posicion.x + velocidad.vx;
-  posicion.y = posicion.y + velocidad.vy;
+  pelota.posicion.x := pelota.posicion.x + velocidad.vx;
+  pelota.posicion.y := pelota.posicion.y + velocidad.vy;
 
   (* verificación de rebote luego de dar un paso *)
-  if (posicion.x + RADIO) > ANCHO or posicion.x < RADIO then
-    velocidad.vx = -velocidad.vx;
-  if (posicion.y + RADIO) > ALTO then
-    velocidad.vy = -velocidad.vy;
+  if ((pelota.posicion.x + RADIO) > ANCHO) or (pelota.posicion.x < RADIO) then
+    velocidad.vx := -velocidad.vx;
+  if (pelota.posicion.y + RADIO) > ALTO then
+    velocidad.vy := -velocidad.vy;
   end;
 end;
 
