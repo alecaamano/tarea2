@@ -26,20 +26,43 @@ function estanChocando(p1, p2: TPelota): boolean;
 
 (***********************)
 function esFrontera(indicePelota: TIndicePelota; zonaPelotas: TZonaPelotas): boolean;
-  var eval: boolean;
+  var esFronteraIzq, esFronteraDer, esFronteraSup, esFronteraInf, esFronteraInterno: boolean;
   begin
-    eval := zonaPelotas[indicePelota.i,indicePelota.j].ocupada;
-    if eval and
-      (indicePelota.i > 1) and
-      (indicePelota.j > 1) and
-      (indicePelota.i < CANT_COLUMNAS) and
-      (indicePelota.j < CANT_FILAS) then
-          if zonaPelotas[indicePelota.i-1,indicePelota.j].ocupada and
-              zonaPelotas[indicePelota.i+1,indicePelota.j].ocupada and
-              zonaPelotas[indicePelota.i,indicePelota.j-1].ocupada and
-              zonaPelotas[indicePelota.i,indicePelota.j+1].ocupada then
-                eval := False;
-    esFrontera := eval
+    esFronteraIzq := (indicePelota.i = 1) 
+      and zonaPelotas[indicePelota.i, indicePelota.j].ocupada
+      and not(zonaPelotas[indicePelota.i+1, indicePelota.j].ocupada
+        and zonaPelotas[indicePelota.i, indicePelota.j-1].ocupada
+        and zonaPelotas[indicePelota.i+1, indicePelota.j-1].ocupada
+        and zonaPelotas[indicePelota.i+1, indicePelota.j+1].ocupada);
+    esFronteraDer := (indicePelota.i = CANT_COLUMNAS)
+      and zonaPelotas[indicePelota.i, indicePelota.j].ocupada
+      and not(zonaPelotas[indicePelota.i-1, indicePelota.j].ocupada
+        and zonaPelotas[indicePelota.i, indicePelota.j-1].ocupada
+        and zonaPelotas[indicePelota.i-1, indicePelota.j-1].ocupada
+        and zonaPelotas[indicePelota.i-1, indicePelota.j+1].ocupada);
+    esFronteraSup := (indicePelota.j = CANT_FILAS)
+      and zonaPelotas[indicePelota.i, indicePelota.j].ocupada
+      and not(zonaPelotas[indicePelota.i, indicePelota.j-1].ocupada
+        and zonaPelotas[indicePelota.i-1, indicePelota.j].ocupada
+        and zonaPelotas[indicePelota.i+1, indicePelota.j].ocupada
+        and zonaPelotas[indicePelota.i+1, indicePelota.j-1].ocupada
+        and zonaPelotas[indicePelota.i-1, indicePelota.j-1].ocupada);
+    esFronteraInf := (indicePelota.j = 1)
+      and zonaPelotas[indicePelota.i, indicePelota.j].ocupada
+      and not(zonaPelotas[indicePelota.i, indicePelota.j-1].ocupada
+        and zonaPelotas[indicePelota.i-1, indicePelota.j].ocupada
+        and zonaPelotas[indicePelota.i+1, indicePelota.j].ocupada
+        and zonaPelotas[indicePelota.i+1, indicePelota.j-1].ocupada
+        and zonaPelotas[indicePelota.i-1, indicePelota.j-1].ocupada);
+    esFronteraInterno := zonaPelotas[indicePelota.i, indicePelota.j].ocupada
+      and not(esFronteraIzq) 
+      and not(esFronteraDer) 
+      and not(esFronteraSup)
+      and not(zonaPelotas[indicePelota.i, indicePelota.j-1].ocupada
+        or zonaPelotas[indicePelota.i, indicePelota.j+1].ocupada
+        or zonaPelotas[indicePelota.i, indicePelota.i-1].ocupada
+        or zonaPelotas[indicePelota.i, indicePelota.i+1].ocupada);
+    esFrontera := esFronteraIzq or esFronteraDer or esFronteraSup or esFronteraInterno;
   end;
 
 (***********************)
@@ -99,9 +122,12 @@ function esZonaVacia(zonaPelotas: TZonaPelotas): boolean;
     k := 1;
     l := 1;
     repeat
-    eval := zonaPelotas[k,l].ocupada;
-    k := k+1;
-    l := l+1;
-    until eval or (k > CANT_FILAS) or (l > CANT_COLUMNAS);
+      repeat
+        eval := zonaPelotas[k,l].ocupada;
+        l := l+1;
+      until eval or (l > CANT_COLUMNAS);
+      k := k+1;
+      l := 1;
+    until eval or (k > CANT_FILAS);
     esZonaVacia := not eval
   end;
